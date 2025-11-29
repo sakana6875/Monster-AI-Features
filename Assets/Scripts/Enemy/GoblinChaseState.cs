@@ -18,8 +18,24 @@ public class GoblinChaseState : BaseState
 
     public override void PhysicsUpdate()
     {
-        Vector2 toPlayer = (PlayerManager.Instance.transform.position - enemy.transform.position).normalized;
+        float directionX = Mathf.Sign(PlayerManager.Instance.transform.position.x - enemy.transform.position.x);
         float speed = enemy.EnemyData.chase.chaseSpeed;
-        enemy.Move(toPlayer * speed);
+        enemy.Move(directionX * speed);
+        FlipTowardsPlayer();
+    }
+
+    private void FlipTowardsPlayer()
+    {
+        float playerX = PlayerManager.Instance.transform.position.x;
+        float enemyX = enemy.transform.position.x;
+
+        if (playerX > enemyX)
+        {
+            enemy.transform.localScale = new Vector3 (1, 1, 1);
+        }
+        else if (playerX < enemyX)
+        {
+            enemy.transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }

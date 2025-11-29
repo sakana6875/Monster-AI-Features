@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        SwitchState(StateFactory.CreateInitialState(enemyType, this));
     }
 
     private void Update()
@@ -36,10 +37,16 @@ public class Enemy : MonoBehaviour
         currentState?.OnEnter();
     }
 
+    public void Move(float horizontalSpeed)
+    {
+        Debug.Log("Move");
+        if (rb != null)
+            rb.velocity = new Vector2(horizontalSpeed, rb.velocity.y);
+    }
+
     public void Move(Vector2 velocity)
     {
-        if (rb != null)
-            rb.velocity = velocity;
+        rb.velocity = velocity;
     }
 
     public EnemyData.PatrolParams GetPatrolParams() => enemyData.patrol;

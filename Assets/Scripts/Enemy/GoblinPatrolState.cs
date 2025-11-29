@@ -11,6 +11,7 @@ public class GoblinPatrolState : BaseState
 
     public override void OnEnter()
     {
+        Debug.Log("OnEnter");
         startPos = enemy.transform.position;
     }
 
@@ -34,6 +35,18 @@ public class GoblinPatrolState : BaseState
         float speed = enemy.EnemyData.patrol.moveSpeed;
         Vector2 dir = movingRight ? Vector2.right : Vector2.left;
         enemy.Move(dir * speed);
+        Flip();
     }
 
+    private void Flip()
+    {
+        if (movingRight)
+        {
+            enemy.transform.localScale = new Vector3 (1, 1, 1);
+        }
+        else if (!movingRight)
+        {
+            enemy.transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
 }
